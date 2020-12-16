@@ -35,9 +35,9 @@ class OpenSubtitles
         return (new Authentication($this->client, $this->baseUrl, $this->apiKey))->logout($accessToken);
     }
 
-    public function find(array $params)
+    public function findByTitle(string $title)
     {
-        return (new Subtitle($this->client, $this->baseUrl, $this->apiKey))->find($params);
+        return $this->findByQuery($title);
     }
 
     public function findByQuery(string $query)
@@ -45,9 +45,9 @@ class OpenSubtitles
         return $this->find(compact('query'));
     }
 
-    public function findByTitle(string $title)
+    public function find(array $params)
     {
-        return $this->findByQuery($title);
+        return (new Subtitle($this->client, $this->baseUrl, $this->apiKey))->find($params);
     }
 
     public function findByMovieHash(string $hash)
