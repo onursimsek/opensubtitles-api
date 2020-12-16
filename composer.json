@@ -1,0 +1,44 @@
+{
+  "name": "onursimsek/opensubtitles-api",
+  "description": "OpenSubtitles REST API SDK for PHP",
+  "keywords": [
+    "opensubtitles",
+    "rest",
+    "api",
+    "sdk",
+    "subtitle"
+  ],
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Onur Şimşek",
+      "email": "posta@onursimsek.com"
+    }
+  ],
+  "require": {
+    "guzzlehttp/guzzle": "^7.2"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.5",
+    "vlucas/phpdotenv": "^5.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "OpenSubtitles\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "OpenSubtitles\\Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "test": "vendor/bin/phpunit",
+    "coverage": "@test --coverage-text",
+    "coverage-report": "@test --coverage-html .tmp"
+  },
+  "config": {
+    "sort-packages": true
+  }
+}
