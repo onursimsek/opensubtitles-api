@@ -15,3 +15,56 @@ You can install the package via composer:
 ``` bash
 composer require onursimsek/opensubtitles-api
 ```
+
+## Usage
+
+Create a new instance with api key
+
+``` php
+$client = new OpenSubtitles($apiKey);
+```
+
+### Auth
+
+``` php
+// Login
+$auth = $client->authentication->login($username, $password);
+// You can use short way
+// $client->login($username, $password);
+
+// Logout
+$client->authentication->logout($auth->token);
+```
+
+### Find Subtitles
+
+``` php
+// Find subtitles (for all parameters: https://opensubtitles.stoplight.io/docs/opensubtitles-api/open_api.json/paths/~1api~1v1~1subtitles/get)
+$subtitles = $client->find([
+    'id' => '',
+    'query' => '',
+    'imdb_id' => '',
+    ...
+]);
+
+foreach ($subtitles->data as $subtitle) {
+    echo $subtitle->id . PHP_EOL;
+    echo $subtitle->attributes->language . PHP_EOL;
+    echo $subtitle->attributes->feature_details->title . PHP_EOL;
+    echo $subtitle->attributes->files[0]->file_id . PHP_EOL;
+}
+
+// Find subtitles by title
+$subtitles = $client->subtitle->findByTitle('How i met your mother');
+
+// Find subtitles by movie hash
+$subtitles = $client->subtitle->findByMovieHash(md5('/path/movie.mkv'));
+```
+
+### Download Subtitle
+
+``` php
+$download = $client->download->download($auth->token, $subtitle->attributes->files[0]->file_id);
+
+file_put_contents($subtitle->attributes->feature_details->title . $response->file_name, file_get_contents($response->link));
+```
