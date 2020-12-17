@@ -27,7 +27,7 @@ final class HttpClientHandler
         $this->options = [
             RequestOptions::HEADERS => [
                 'Content-Type' => 'application/json',
-            ]
+            ],
         ];
     }
 
@@ -77,9 +77,25 @@ final class HttpClientHandler
      * @return ResponseInterface
      * @throws GuzzleException
      */
-    final private function sendRequest(string $method, string $uri, array $options): ResponseInterface
+    private function sendRequest(string $method, string $uri, array $options): ResponseInterface
     {
-        return $this->client->request($method, $uri, $options + $this->options);
+        return $this->client->request($method, $uri, $this->mergeWithDefaultOptions($options));
+    }
+
+    private function mergeWithDefaultOptions(array $options = []): array
+    {
+        $merged = $this->options;
+        foreach ($options as $requestOptionKey => $data) {
+            if (!is_array($data)) {
+                $merged[$requestOptionKey] = $data;
+                continue;
+            }
+            foreach ($data as $key => $value) {
+                $merged[$requestOptionKey][$key] = $value;
+            }
+        }
+
+        return $merged;
     }
 
     /**

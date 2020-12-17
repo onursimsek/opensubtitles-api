@@ -7,6 +7,7 @@ namespace OpenSubtitles;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use OpenSubtitles\Endpoints\Authentication;
+use OpenSubtitles\Endpoints\Download;
 use OpenSubtitles\Endpoints\Endpoint;
 use OpenSubtitles\Endpoints\Subtitle;
 use OpenSubtitles\Exceptions\UnsupportedEndpoint;
@@ -15,8 +16,9 @@ use OpenSubtitles\Exceptions\UnsupportedEndpoint;
  * Class OpenSubtitles
  * @package OpenSubtitles
  *
- * @property Authentication $authentication;
- * @property Subtitle $subtitle;
+ * @property Authentication $authentication
+ * @property Subtitle $subtitle
+ * @property Download $download
  */
 class OpenSubtitles
 {
@@ -32,6 +34,7 @@ class OpenSubtitles
     private array $routes = [
         'authentication' => Authentication::class,
         'subtitle' => Subtitle::class,
+        'download' => Download::class,
     ];
 
     private array $container = [];
@@ -93,20 +96,10 @@ class OpenSubtitles
             throw new UnsupportedEndpoint();
         }
 
-        return $this->instanceFromContainer($key)
-            ?: $this->container[$key] = (new $this->routes[$key]($this->client, $this->baseUrl, $this->apiKey));
-    }
-
-    /**
-     * @param $key
-     * @return mixed|null
-     */
-    private function instanceFromContainer($key): ?Endpoint
-    {
-        if (!array_key_exists($key, $this->container)) {
-            return null;
+        if (array_key_exists($key, $this->container)) {
+            return $this->container[$key];
         }
 
-        return $this->container[$key];
+        return $this->container[$key] = (new $this->routes[$key]($this->client, $this->baseUrl, $this->apiKey));
     }
 }
