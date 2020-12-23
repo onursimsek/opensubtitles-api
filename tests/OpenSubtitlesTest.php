@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace OpenSubtitles\Tests;
 
 use OpenSubtitles\Exceptions\UnsupportedEndpoint;
+use OpenSubtitles\OpenSubtitles;
 
 class OpenSubtitlesTest extends TestCase
 {
@@ -26,6 +27,9 @@ class OpenSubtitlesTest extends TestCase
 
     public function test_can_be_found_subtitles()
     {
+        $auth = $this->app->login(getenv('USERNAME'), getenv('PASSWORD'));
+        $this->app->logout($auth->token);
+
         $response = $this->app->find(['query' => 'Big Bang Theory']);
 
         self::assertObjectHasAttribute('total_pages', $response);
@@ -39,5 +43,19 @@ class OpenSubtitlesTest extends TestCase
         self::expectException(UnsupportedEndpoint::class);
 
         $this->app->unsupported;
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->app = new OpenSubtitles(
+            getenv('API_KEY'),
+            $this->getClient(
+                $this->loginMock(),
+                $this->logoutMock(),
+                $this->findSubtitleMock(),
+            )
+        );
     }
 }

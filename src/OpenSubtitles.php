@@ -11,6 +11,7 @@ use OpenSubtitles\Endpoints\Download;
 use OpenSubtitles\Endpoints\Endpoint;
 use OpenSubtitles\Endpoints\Subtitle;
 use OpenSubtitles\Exceptions\UnsupportedEndpoint;
+use Psr\Http\Client\ClientInterface;
 
 /**
  * Class OpenSubtitles
@@ -26,10 +27,7 @@ class OpenSubtitles
 
     private ?string $apiKey;
 
-    /**
-     * @var Client
-     */
-    private Client $client;
+    private ClientInterface $client;
 
     private array $routes = [
         'authentication' => Authentication::class,
@@ -39,10 +37,10 @@ class OpenSubtitles
 
     private array $container = [];
 
-    public function __construct(string $apiKey = null)
+    public function __construct(string $apiKey = null, ClientInterface $client = null)
     {
-        $this->client = new Client();
         $this->apiKey = $apiKey;
+        $this->client = $client ?: new Client();
     }
 
     /**

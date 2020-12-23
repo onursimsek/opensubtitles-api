@@ -2,6 +2,7 @@
 
 namespace OpenSubtitles\Tests\Endpoints;
 
+use OpenSubtitles\OpenSubtitles;
 use OpenSubtitles\Tests\TestCase;
 
 class SubtitleTest extends TestCase
@@ -24,5 +25,17 @@ class SubtitleTest extends TestCase
         self::assertObjectHasAttribute('total_count', $response);
         self::assertObjectHasAttribute('page', $response);
         self::assertObjectHasAttribute('data', $response);
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->app = new OpenSubtitles(
+            getenv('API_KEY'),
+            $this->getClient(
+                $this->findSubtitleMock()
+            )
+        );
     }
 }
