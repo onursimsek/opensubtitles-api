@@ -27,7 +27,7 @@ class OpenSubtitlesTest extends TestCase
 
     public function testCanBeFoundSubtitles()
     {
-        $auth = $this->app->login(getenv('USERNAME'), getenv('PASSWORD'));
+        $auth = $this->app->login('USERNAME', 'PASSWORD');
         $this->app->logout($auth->token);
 
         $response = $this->app->find(['query' => 'Big Bang Theory']);
@@ -47,10 +47,8 @@ class OpenSubtitlesTest extends TestCase
 
     protected function setUp(): void
     {
-        parent::setUp();
-
         $this->app = new OpenSubtitles(
-            getenv('API_KEY'),
+            'API_KEY',
             $this->getClient(
                 $this->loginMock(),
                 $this->logoutMock(),

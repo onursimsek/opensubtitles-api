@@ -27,10 +27,8 @@ class AuthenticationTest extends TestCase
 
     protected function setUp(): void
     {
-        parent::setUp();
-
         $this->app = new OpenSubtitles(
-            getenv('API_KEY'),
+            'API_KEY',
             $this->getClient(
                 $this->loginMock(),
                 $this->logoutMock()
