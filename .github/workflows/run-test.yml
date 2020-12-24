@@ -1,0 +1,46 @@
+name: Unit Tests
+
+on: [ push, pull_request ]
+
+jobs:
+  tests:
+    runs-on: ubuntu-18.04
+    strategy:
+      fail-fast: true
+      matrix:
+        php: [ 7.4, 8.0 ]
+
+    name: Unit Test ${{matrix.php}} on Ubuntu
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          tools: phpcs, phpunit
+
+      - name: Validate composer.json and composer.lock
+        run: composer validate
+
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v2
+        with:
+          path: vendor
+          key: ubuntu-composer-cache-${{ matrix.php }}-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ubuntu-php-${{ matrix.php }}
+
+      - name: Install dependencies
+        if: steps.composer-cache.outputs.cache-hit != 'true'
+        run: composer install --prefer-dist --no-progress --no-suggest
+
+      - name: Execute Tests
+        run: vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
+
+      - name: Download Scrutinizer phar
+        run: wget https://scrutinizer-ci.com/ocular.phar
+
+      - name: Send Coverage Report to Scrutinizer
+        run: php ocular.phar code-coverage:upload --format=php-clover coverage.clover
