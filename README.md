@@ -2,7 +2,7 @@
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/onursimsek/opensubtitles-api.svg?style=flat-square)](https://packagist.org/packages/onursimsek/opensubtitles-api)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-![Tests](https://github.com/onursimsek/opensubtitles-api/workflows/Unit%20Tests/badge.svg)
+[!Tests](https://github.com/onursimsek/opensubtitles-api/workflows/Unit%20Tests/badge.svg)
 [![Quality Score](https://img.shields.io/scrutinizer/g/onursimsek/opensubtitles-api.svg?style=flat-square)](https://scrutinizer-ci.com/g/onursimsek/opensubtitles-api)
 [![Total Downloads](https://img.shields.io/packagist/dt/onursimsek/opensubtitles-api.svg?style=flat-square)](https://packagist.org/packages/onursimsek/opensubtitles-api)
 

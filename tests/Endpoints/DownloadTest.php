@@ -9,9 +9,9 @@ use OpenSubtitles\Tests\TestCase;
 
 class DownloadTest extends TestCase
 {
-    public function test_can_be_downloaded_a_subtitle()
+    public function testCanBeDownloadedASubtitle()
     {
-        $auth = $this->app->login(getenv('USERNAME'), getenv('PASSWORD'));
+        $auth = $this->app->login('USERNAME', 'PASSWORD');
         $movie = $this->app->subtitle->findByTitle('The Matrix');
 
         $response = $this->app->download->download($auth->token, $movie->data[0]->attributes->files[0]->file_id);

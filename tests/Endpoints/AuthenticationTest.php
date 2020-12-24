@@ -9,21 +9,17 @@ use OpenSubtitles\Tests\TestCase;
 
 class AuthenticationTest extends TestCase
 {
-    public function test_can_be_login()
+    public function testCanBeLogin()
     {
-        $response = $this->app->authentication->login(
-            ['username' => getenv('USERNAME'), 'password' => getenv('PASSWORD')]
-        );
+        $response = $this->app->authentication->login(['username' => 'USERNAME', 'password' => 'PASSWORD']);
 
         self::assertObjectHasAttribute('user', $response);
         self::assertObjectHasAttribute('token', $response);
     }
 
-    public function test_can_be_logout()
+    public function testCanBeLogout()
     {
-        $auth = $this->app->authentication->login(
-            ['username' => getenv('USERNAME'), 'password' => getenv('PASSWORD')]
-        );
+        $auth = $this->app->authentication->login(['username' => 'USERNAME', 'password' => 'PASSWORD']);
         $response = $this->app->authentication->logout($auth->token);
 
         self::assertIsObject($response);

@@ -52,7 +52,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         );
     }
 
-    protected function findSubtitleMock()
+    protected function findSubtitleMock(): Response
     {
         return new Response(
             200,
@@ -76,7 +76,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         );
     }
 
-    protected function downloadMock()
+    protected function downloadMock(): Response
     {
         return new Response(
             200,
