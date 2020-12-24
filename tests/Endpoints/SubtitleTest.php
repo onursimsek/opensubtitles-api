@@ -7,7 +7,7 @@ use OpenSubtitles\Tests\TestCase;
 
 class SubtitleTest extends TestCase
 {
-    public function test_can_be_found_subtitles_with_title()
+    public function testCanBeFoundSubtitlesWithTitle()
     {
         $response = $this->app->subtitle->findByTitle('How i met your mother');
 
@@ -17,7 +17,7 @@ class SubtitleTest extends TestCase
         self::assertObjectHasAttribute('data', $response);
     }
 
-    public function test_can_be_found_subtitles_with_movie_hash()
+    public function testCanBeFoundSubtitlesWithMovieHash()
     {
         $response = $this->app->subtitle->findByMovieHash('b30f3a478e56ba96fdee607a8538265a');
 
@@ -29,10 +29,8 @@ class SubtitleTest extends TestCase
 
     protected function setUp(): void
     {
-        parent::setUp();
-
         $this->app = new OpenSubtitles(
-            getenv('API_KEY'),
+            'API_KEY',
             $this->getClient(
                 $this->findSubtitleMock()
             )

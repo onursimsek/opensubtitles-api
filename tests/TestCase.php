@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace OpenSubtitles\Tests;
 
-use Dotenv\Dotenv;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
@@ -14,11 +13,6 @@ use OpenSubtitles\OpenSubtitles;
 abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
     protected OpenSubtitles $app;
-
-    protected function setUp(): void
-    {
-        Dotenv::createUnsafeImmutable(__DIR__ . '/..')->load();
-    }
 
     protected function getClient(...$response): Client
     {
@@ -52,7 +46,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         );
     }
 
-    protected function findSubtitleMock()
+    protected function findSubtitleMock(): Response
     {
         return new Response(
             200,
@@ -76,7 +70,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         );
     }
 
-    protected function downloadMock()
+    protected function downloadMock(): Response
     {
         return new Response(
             200,

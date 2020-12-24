@@ -9,25 +9,25 @@ use OpenSubtitles\OpenSubtitles;
 
 class OpenSubtitlesTest extends TestCase
 {
-    public function test_can_be_login()
+    public function testCanBeLogin()
     {
-        $response = $this->app->login(getenv('USERNAME'), getenv('PASSWORD'));
+        $response = $this->app->login('USERNAME', 'PASSWORD');
 
         self::assertObjectHasAttribute('user', $response);
         self::assertObjectHasAttribute('token', $response);
     }
 
-    public function test_can_be_logout()
+    public function testCanBeLogout()
     {
-        $auth = $this->app->login(getenv('USERNAME'), getenv('PASSWORD'));
+        $auth = $this->app->login('USERNAME', 'PASSWORD');
         $response = $this->app->logout($auth->token);
 
         self::assertIsObject($response);
     }
 
-    public function test_can_be_found_subtitles()
+    public function testCanBeFoundSubtitles()
     {
-        $auth = $this->app->login(getenv('USERNAME'), getenv('PASSWORD'));
+        $auth = $this->app->login('USERNAME', 'PASSWORD');
         $this->app->logout($auth->token);
 
         $response = $this->app->find(['query' => 'Big Bang Theory']);
@@ -38,7 +38,7 @@ class OpenSubtitlesTest extends TestCase
         self::assertObjectHasAttribute('data', $response);
     }
 
-    public function test_cannot_be_run_unsupported_endpoint()
+    public function testCannotBeRunUnsupportedEndpoint()
     {
         self::expectException(UnsupportedEndpoint::class);
 
@@ -47,10 +47,8 @@ class OpenSubtitlesTest extends TestCase
 
     protected function setUp(): void
     {
-        parent::setUp();
-
         $this->app = new OpenSubtitles(
-            getenv('API_KEY'),
+            'API_KEY',
             $this->getClient(
                 $this->loginMock(),
                 $this->logoutMock(),
