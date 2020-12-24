@@ -86,10 +86,6 @@ final class HttpClientHandler
     {
         $merged = $this->options;
         foreach ($options as $requestOptionKey => $data) {
-            if (!is_array($data)) {
-                $merged[$requestOptionKey] = $data;
-                continue;
-            }
             foreach ($data as $key => $value) {
                 $merged[$requestOptionKey][$key] = $value;
             }

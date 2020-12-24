@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace OpenSubtitles\Tests\Endpoints;
 
+use OpenSubtitles\OpenSubtitles;
 use OpenSubtitles\Tests\TestCase;
 
 class DownloadTest extends TestCase
@@ -21,5 +22,19 @@ class DownloadTest extends TestCase
         self::assertObjectHasAttribute('allowed', $response);
         self::assertObjectHasAttribute('remaining', $response);
         self::assertObjectHasAttribute('message', $response);
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->app = new OpenSubtitles(
+            getenv('API_KEY'),
+            $this->getClient(
+                $this->loginMock(),
+                $this->findSubtitleMock(),
+                $this->downloadMock()
+            )
+        );
     }
 }
