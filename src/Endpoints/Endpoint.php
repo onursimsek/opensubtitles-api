@@ -8,5 +8,5 @@ use GuzzleHttp\ClientInterface;
 
 interface Endpoint
 {
-    public function __construct(ClientInterface $client, string $baseUrl, string $apiKey = null);
+    public function __construct(ClientInterface $client, array $config);
 }

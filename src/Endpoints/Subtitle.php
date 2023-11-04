@@ -11,21 +11,17 @@ use OpenSubtitles\HttpClientHandler;
 
 class Subtitle implements Endpoint
 {
-    private string $baseUrl;
-
     /**
      * @var HttpClientHandler
      */
     private HttpClientHandler $clientHandler;
 
-    public function __construct(ClientInterface $client, string $baseUrl, string $apiKey = null)
-    {
-        $this->baseUrl = $baseUrl;
+    private array $config;
 
-        $this->clientHandler = new HttpClientHandler($client);
-        if ($apiKey) {
-            $this->clientHandler->setApiKey($apiKey);
-        }
+    public function __construct(ClientInterface $client, array $config)
+    {
+        $this->clientHandler = new HttpClientHandler($client, $config);
+        $this->config = $config;
     }
 
     /**
@@ -62,7 +58,7 @@ class Subtitle implements Endpoint
     public function find(array $params)
     {
         return $this->clientHandler->toJson(
-            $this->clientHandler->get($this->baseUrl . '/subtitles', [RequestOptions::QUERY => $params])
+            $this->clientHandler->get($this->config['host'] . '/subtitles', [RequestOptions::QUERY => $params])
         );
     }
 

@@ -11,21 +11,17 @@ use OpenSubtitles\HttpClientHandler;
 
 class Authentication implements Endpoint
 {
-    private string $baseUrl;
-
     /**
      * @var HttpClientHandler
      */
     private HttpClientHandler $clientHandler;
 
-    public function __construct(ClientInterface $client, string $baseUrl, string $apiKey = null)
-    {
-        $this->baseUrl = $baseUrl;
+    private array $config;
 
-        $this->clientHandler = new HttpClientHandler($client);
-        if ($apiKey) {
-            $this->clientHandler->setApiKey($apiKey);
-        }
+    public function __construct(ClientInterface $client, array $config)
+    {
+        $this->clientHandler = new HttpClientHandler($client, $config);
+        $this->config = $config;
     }
 
     /**
@@ -38,7 +34,7 @@ class Authentication implements Endpoint
     public function login(array $credentials)
     {
         return $this->clientHandler->toJson(
-            $this->clientHandler->post($this->baseUrl . '/login', [RequestOptions::JSON => $credentials])
+            $this->clientHandler->post($this->config['host'] . '/login', [RequestOptions::JSON => $credentials])
         );
     }
 
@@ -52,7 +48,7 @@ class Authentication implements Endpoint
     public function logout(string $accessToken)
     {
         return $this->clientHandler->toJson(
-            $this->clientHandler->setAccessToken($accessToken)->delete($this->baseUrl . '/logout')
+            $this->clientHandler->setAccessToken($accessToken)->delete($this->config['host'] . '/logout')
         );
     }
 }

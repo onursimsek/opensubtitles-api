@@ -11,21 +11,17 @@ use OpenSubtitles\HttpClientHandler;
 
 class Download implements Endpoint
 {
-    private string $baseUrl;
-
     /**
      * @var HttpClientHandler
      */
     private HttpClientHandler $clientHandler;
 
-    public function __construct(ClientInterface $client, string $baseUrl, string $apiKey = null)
-    {
-        $this->baseUrl = $baseUrl;
+    private array $config;
 
-        $this->clientHandler = new HttpClientHandler($client);
-        if ($apiKey) {
-            $this->clientHandler->setApiKey($apiKey);
-        }
+    public function __construct(ClientInterface $client, array $config)
+    {
+        $this->clientHandler = new HttpClientHandler($client, $config);
+        $this->config = $config;
     }
 
     /**
@@ -41,7 +37,7 @@ class Download implements Endpoint
     {
         return $this->clientHandler->toJson(
             $this->clientHandler->setAccessToken($accessToken)->post(
-                $this->baseUrl . '/download',
+                $this->config['host'] . '/download',
                 [
                     RequestOptions::HEADERS => [
                         // If the accept header dont set, this won't run (response: 406 Not Acceptable)

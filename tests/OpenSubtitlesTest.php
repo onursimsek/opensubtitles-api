@@ -48,7 +48,11 @@ class OpenSubtitlesTest extends TestCase
     protected function setUp(): void
     {
         $this->app = new OpenSubtitles(
-            'API_KEY',
+            [
+                'host' => 'HOST',
+                'api_key' => 'API_KEY',
+                'app_name' => 'APP_NAME',
+            ],
             $this->getClient(
                 $this->loginMock(),
                 $this->logoutMock(),

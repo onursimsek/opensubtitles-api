@@ -2,7 +2,7 @@
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/onursimsek/opensubtitles-api.svg?style=flat-square)](https://packagist.org/packages/onursimsek/opensubtitles-api)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-![Tests](https://github.com/onursimsek/opensubtitles-api/workflows/Unit%20Tests/badge.svg)
+[![Tests](https://github.com/onursimsek/opensubtitles-api/workflows/tests/badge.svg)](https://github.com/onursimsek/opensubtitles-api/actions)
 [![Quality Score](https://img.shields.io/scrutinizer/g/onursimsek/opensubtitles-api.svg?style=flat-square)](https://scrutinizer-ci.com/g/onursimsek/opensubtitles-api)
 [![Total Downloads](https://img.shields.io/packagist/dt/onursimsek/opensubtitles-api.svg?style=flat-square)](https://packagist.org/packages/onursimsek/opensubtitles-api)
 
@@ -21,14 +21,14 @@ composer require onursimsek/opensubtitles-api
 Create a new instance with api key
 
 ``` php
-$client = new OpenSubtitles($apiKey);
+$client = new OpenSubtitles();
 ```
 
 ### Auth
 
 ``` php
 // Login
-$auth = $client->authentication->login($username, $password);
+$auth = $client->authentication->login(['username' => $username, 'password' => $password]);
 // You can use short way
 // $client->login($username, $password);
 

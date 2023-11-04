@@ -23,8 +23,6 @@ use Psr\Http\Client\ClientInterface;
  */
 class OpenSubtitles
 {
-    private string $baseUrl = 'https://www.opensubtitles.com/api/v1';
-
     private ?string $apiKey;
 
     private ClientInterface $client;
@@ -37,9 +35,11 @@ class OpenSubtitles
 
     private array $container = [];
 
-    public function __construct(string $apiKey = null, ClientInterface $client = null)
+    private array $config = [];
+
+    public function __construct(array $config = null, ClientInterface $client = null)
     {
-        $this->apiKey = $apiKey;
+        $this->config = $config ?? require __DIR__ . '/../config/opensubtitles.php';
         $this->client = $client ?: new Client();
     }
 
@@ -53,7 +53,7 @@ class OpenSubtitles
      */
     public function login(string $username, string $password)
     {
-        return (new Authentication($this->client, $this->baseUrl, $this->apiKey))->login(
+        return (new Authentication($this->client, $this->config))->login(
             compact('username', 'password')
         );
     }
@@ -67,7 +67,7 @@ class OpenSubtitles
      */
     public function logout(string $accessToken)
     {
-        return (new Authentication($this->client, $this->baseUrl, $this->apiKey))->logout($accessToken);
+        return (new Authentication($this->client, $this->config))->logout($accessToken);
     }
 
     /**
@@ -79,7 +79,7 @@ class OpenSubtitles
      */
     public function find(array $params)
     {
-        return (new Subtitle($this->client, $this->baseUrl, $this->apiKey))->find($params);
+        return (new Subtitle($this->client, $this->config))->find($params);
     }
 
     /**
@@ -98,6 +98,6 @@ class OpenSubtitles
             return $this->container[$key];
         }
 
-        return $this->container[$key] = (new $this->routes[$key]($this->client, $this->baseUrl, $this->apiKey));
+        return $this->container[$key] = (new $this->routes[$key]($this->client, $this->config));
     }
 }

@@ -20,7 +20,7 @@ final class HttpClientHandler
 
     private array $options;
 
-    public function __construct(ClientInterface $client)
+    public function __construct(ClientInterface $client, array $config)
     {
         $this->client = $client;
 
@@ -29,17 +29,19 @@ final class HttpClientHandler
                 'Content-Type' => 'application/json',
             ],
         ];
+
+        if (array_key_exists('api_key', $config)) {
+            $this->setHeader('Api-Key', $config['api_key']);
+        }
+
+        if (array_key_exists('app_name', $config)) {
+            $this->setHeader('User-Agent', $config['app_name']);
+        }
     }
 
-    /**
-     * Set api key on the header
-     *
-     * @param string $apiKey
-     * @return $this
-     */
-    final public function setApiKey(string $apiKey): self
+    private function setHeader(string $header, $value): self
     {
-        $this->options[RequestOptions::HEADERS]['Api-Key'] = $apiKey;
+        $this->options[RequestOptions::HEADERS][$header] = $value;
         return $this;
     }
 
@@ -51,7 +53,7 @@ final class HttpClientHandler
      */
     final public function setAccessToken(string $accessToken): self
     {
-        $this->options[RequestOptions::HEADERS]['Authorization'] = 'Bearer ' . $accessToken;
+        $this->setHeader('Authorization', 'Bearer ' . $accessToken);
         return $this;
     }
 
