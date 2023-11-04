@@ -16,12 +16,12 @@ class DownloadTest extends TestCase
 
         $response = $this->app->download->download($auth->token, $movie->data[0]->attributes->files[0]->file_id);
 
-        self::assertObjectHasAttribute('link', $response);
-        self::assertObjectHasAttribute('file_name', $response);
-        self::assertObjectHasAttribute('requests', $response);
-        self::assertObjectHasAttribute('allowed', $response);
-        self::assertObjectHasAttribute('remaining', $response);
-        self::assertObjectHasAttribute('message', $response);
+        self::assertObjectHasProperty('link', $response);
+        self::assertObjectHasProperty('file_name', $response);
+        self::assertObjectHasProperty('requests', $response);
+        self::assertObjectHasProperty('allowed', $response);
+        self::assertObjectHasProperty('remaining', $response);
+        self::assertObjectHasProperty('message', $response);
     }
 
     protected function setUp(): void

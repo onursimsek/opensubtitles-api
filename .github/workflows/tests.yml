@@ -4,29 +4,29 @@ on: [ push, pull_request ]
 
 jobs:
   tests:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: true
       matrix:
-        php: [ 7.4 ]
+        php: [ 8.0, 8.1, 8.2, 8.3 ]
 
     name: Unit Test ${{matrix.php}} on Ubuntu
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          tools: phpcs, phpunit
+          tools: phpunit
 
       - name: Validate composer.json and composer.lock
         run: composer validate
 
       - name: Cache Composer packages
         id: composer-cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: vendor
           key: ubuntu-composer-cache-${{ matrix.php }}-${{ hashFiles('**/composer.lock') }}
@@ -34,7 +34,7 @@ jobs:
 
       - name: Install dependencies
         if: steps.composer-cache.outputs.cache-hit != 'true'
-        run: composer install --prefer-dist --no-progress --no-suggest
+        run: composer install --prefer-dist --no-progress
 
       - name: Execute Tests
         run: vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover

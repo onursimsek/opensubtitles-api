@@ -13,8 +13,8 @@ class OpenSubtitlesTest extends TestCase
     {
         $response = $this->app->login('USERNAME', 'PASSWORD');
 
-        self::assertObjectHasAttribute('user', $response);
-        self::assertObjectHasAttribute('token', $response);
+        self::assertObjectHasProperty('user', $response);
+        self::assertObjectHasProperty('token', $response);
     }
 
     public function testCanBeLogout()
@@ -32,10 +32,10 @@ class OpenSubtitlesTest extends TestCase
 
         $response = $this->app->find(['query' => 'Big Bang Theory']);
 
-        self::assertObjectHasAttribute('total_pages', $response);
-        self::assertObjectHasAttribute('total_count', $response);
-        self::assertObjectHasAttribute('page', $response);
-        self::assertObjectHasAttribute('data', $response);
+        self::assertObjectHasProperty('total_pages', $response);
+        self::assertObjectHasProperty('total_count', $response);
+        self::assertObjectHasProperty('page', $response);
+        self::assertObjectHasProperty('data', $response);
     }
 
     public function testCannotBeRunUnsupportedEndpoint()

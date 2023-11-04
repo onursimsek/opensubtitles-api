@@ -11,20 +11,20 @@ class SubtitleTest extends TestCase
     {
         $response = $this->app->subtitle->findByTitle('How i met your mother');
 
-        self::assertObjectHasAttribute('total_pages', $response);
-        self::assertObjectHasAttribute('total_count', $response);
-        self::assertObjectHasAttribute('page', $response);
-        self::assertObjectHasAttribute('data', $response);
+        self::assertObjectHasProperty('total_pages', $response);
+        self::assertObjectHasProperty('total_count', $response);
+        self::assertObjectHasProperty('page', $response);
+        self::assertObjectHasProperty('data', $response);
     }
 
     public function testCanBeFoundSubtitlesWithMovieHash()
     {
         $response = $this->app->subtitle->findByMovieHash('b30f3a478e56ba96fdee607a8538265a');
 
-        self::assertObjectHasAttribute('total_pages', $response);
-        self::assertObjectHasAttribute('total_count', $response);
-        self::assertObjectHasAttribute('page', $response);
-        self::assertObjectHasAttribute('data', $response);
+        self::assertObjectHasProperty('total_pages', $response);
+        self::assertObjectHasProperty('total_count', $response);
+        self::assertObjectHasProperty('page', $response);
+        self::assertObjectHasProperty('data', $response);
     }
 
     protected function setUp(): void

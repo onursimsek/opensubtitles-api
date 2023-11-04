@@ -9,16 +9,16 @@ jobs:
     steps:
 
       - name: Checkout Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '7.4'
+          php-version: '8.2'
 
       - name: Cache Dependencies
         id: composer-cache-style
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: vendor
           key: ubuntu-composer-cache-style-${{ hashFiles('**/composer.lock') }}
@@ -26,7 +26,7 @@ jobs:
 
       - name: Install Dependencies
         if: steps.composer-cache.outputs.cache-hit != 'true'
-        run: composer install --prefer-dist --no-progress --no-suggest
+        run: composer install --prefer-dist --no-progress
 
       - name: Check Coding Style
         run: vendor/bin/phpcs src/

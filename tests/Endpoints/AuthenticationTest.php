@@ -13,8 +13,8 @@ class AuthenticationTest extends TestCase
     {
         $response = $this->app->authentication->login(['username' => 'USERNAME', 'password' => 'PASSWORD']);
 
-        self::assertObjectHasAttribute('user', $response);
-        self::assertObjectHasAttribute('token', $response);
+        self::assertObjectHasProperty('user', $response);
+        self::assertObjectHasProperty('token', $response);
     }
 
     public function testCanBeLogout()
