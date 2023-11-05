@@ -58,7 +58,8 @@ foreach ($subtitles->data as $subtitle) {
 $subtitles = $client->subtitle->findByTitle('How i met your mother');
 
 // Find subtitles by movie hash
-$subtitles = $client->subtitle->findByMovieHash(md5('/path/movie.mkv'));
+$hash = (new \OpenSubtitles\Hash())->make(__DIR__ . '/../breakdance.avi');
+$subtitles = $client->subtitle->findByMovieHash($hash);
 ```
 
 ### Download Subtitle
